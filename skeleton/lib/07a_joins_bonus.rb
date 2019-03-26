@@ -30,20 +30,32 @@ def alison_artist
     artist
   FROM
     albums
-  JOIN tracks on album = title
-  WHERE song = 'Alison' 
+  JOIN tracks on album = asin
+  where song = 'Alison'
   SQL
 end
 
 def exodus_artist
   # Select the name of the artist who recorded the song 'Exodus'.
   execute(<<-SQL)
+  SELECT 
+    artist
+  FROM
+    albums
+  JOIN tracks on album = asin
+  where song = 'Exodus'
   SQL
 end
 
 def blur_songs
   # Select the `song` for each `track` on the album `Blur`.
   execute(<<-SQL)
+  SELECT 
+    song
+  FROM
+    albums
+  JOIN tracks on album = asin
+  WHERE title = 'Blur'
   SQL
 end
 
@@ -52,6 +64,12 @@ def heart_tracks
   # the word 'Heart' (albums with no such tracks need not be shown). Order first by
   # the number of such tracks, then by album title.
   execute(<<-SQL)
+  SELECT title, count(song)
+  FROM albums
+  JOIN tracks ON album = asin
+  WHERE song LIKE '%Heart%'
+  GROUP BY title
+  ORDER BY count(song) DESC, title
   SQL
 end
 
